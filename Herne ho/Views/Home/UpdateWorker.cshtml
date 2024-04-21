@@ -1,0 +1,46 @@
+﻿@model WorkerModel
+@{
+    ViewData["Title"] = "Update Workers";
+}
+
+<div>
+
+    <h1>
+        Add A worker <b>Here :</b>
+    </h1>
+
+    <form action="UpdateWorker" method="post">
+
+        <div class="mb-3">
+            <label for="name" class="form-label">GUID</label>
+            <input type="text" class="form-control" id="name" asp-for="WorkerId" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" asp-for="WorkerName">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Email</label>
+            <input type="email" class="form-control" id="name" asp-for="WorkerEmail">
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="name" asp-for="WorkerPhone">
+        </div>
+
+        <div class="mb-3">
+            <select class="form-select" asp-for="WorkerType">
+                <option>Profession</option>
+
+                @foreach (var type in Enum.GetValues(typeof(WorkerType)))
+                {
+                  <option value="@type">@type</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>

@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if(TempData["Sucess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Sucess"]
+    </div>
+
+}

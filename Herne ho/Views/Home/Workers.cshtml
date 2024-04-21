@@ -1,0 +1,37 @@
+﻿@model List<WorkerViewModel>
+@{
+    ViewData["Title"] = "Worker List";
+}
+<div>
+    <h1>Workers can be seen <strong> Here </strong> </h1>
+
+    <table class="table"> 
+        <thead>
+            <tr>
+                <th scope="col">GUID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Profession</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col"> Manage Worker</th>
+            </tr>
+            <tbody>
+
+                @foreach (var worker in Model)
+                {
+                <tr>
+                   <th scope="row">@worker.WorkerId</th>
+                   <td>@worker.WorkerName</td>
+                   <td> @worker.WorkerType</td>
+                   <td> @worker.WorkerEmail</td>
+                   <td> @worker.WorkerPhone</td>
+                   <td>
+                       <a href="/Home/UpdateWorker?workerId=@worker.WorkerId">Update</a>
+                       <a href="/Home/DeleteWorker?workerId=@worker.WorkerId"> Delete</a>
+                   </td>
+                </tr>
+                }
+            </tbody>
+        </thead>
+    </table>
+</div>
