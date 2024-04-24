@@ -1,0 +1,30 @@
+﻿@model ClientViewModel
+@{
+    ViewData["Title"] = "Add Clients";
+}
+
+<div>
+    <h1>
+        Add A worker <b>Here :</b>
+    </h1>
+    <form action="AddClients" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" asp-for="ClientName">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Email</label>
+            <input type="email" class="form-control" id="name" asp-for="ClientEmail">
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="name" asp-for="CLientPhone">
+        </div>
+
+       
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  
+</div>

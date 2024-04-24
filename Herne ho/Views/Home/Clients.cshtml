@@ -1,0 +1,75 @@
+﻿@model List<ClientViewModel>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<div>
+    <h1>Clients can be seen <strong> Here </strong> </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">GUID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col"> Manage Client</th>
+            </tr>
+        <tbody>
+
+                @foreach (var client in Model)
+                {
+                <tr>
+                    <th scope="row">@client.ClientId</th>
+                    <td>@client.ClientName</td>
+                        <td> @client.ClientEmail</td>
+                    <td> @client.CLientPhone</td>
+                    <td>
+                        <a href="/Home/UpdateClient/?ClientId=@client.ClientId">Update</a>
+                        <a href="#" data-bs-toggle="modal" class="delete-worker" data-bs-target="#alert" data-worker-id="@client.ClientId"> Delete</a>
+                    </td>
+                </tr>
+                }
+        </tbody>
+        </thead>
+    </table>
+
+    <div class="modal" tabindex="-1" id="alert">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm delete?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the selected worker?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a asp-action="DeleteWorker" type="button" id="deleteWorkerButton" class="btn btn-primary">Delete Worker</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+ </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.delete-worker').click(function () {
+            var workerId = $(this).data('worker-id');
+            var deleteUrl = "/Home/DeleteClient?clientId=" + workerId;
+            $('#deleteWorkerButton').attr('href', deleteUrl);
+            $('#deleteWorkerButton').attr('data-worker-id', workerId);
+        });
+
+        $('#deleteWorkerButton').click(function () {
+            var workerId = $(this).data('worker-id');
+            window.location.href = "/Home/DeleteClient?clientId=" + workerId;
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Herne_ho.Controllers
 {
@@ -34,7 +35,101 @@ namespace Herne_ho.Controllers
             ViewBag.Workers = workers;
             return View();
         }
+        public IActionResult Clients()
+        {
+            var data = _appDb.ClientModels.ToList();
+            List<ClientViewModel> clients = new List<ClientViewModel>();
 
+            foreach(var client in data)
+            {
+                clients.Add(new ClientViewModel()
+                {
+                    ClientId = client.ClientId,
+                    ClientEmail = client.ClientEmail,
+                    ClientName = client.ClientName,
+                    CLientPhone = client.CLientPhone,
+                    HiredWorker = client.HiredWorker
+                });
+                
+            }
+            return View(clients);
+        }
+
+        public IActionResult UpdateClient(Guid ClientId)
+        {
+            var data = _appDb.ClientModels.FirstOrDefault(x => x.ClientId == ClientId);
+            if (data == null)
+            {
+                TempData["Sucess"] = $"The ID {data.ClientId} was not registered on the server";
+                return RedirectToAction("Index");
+            }
+            return View(data);
+        }
+
+        
+        public IActionResult DeleteClient(Guid clientId)
+        {
+            var data = _appDb.ClientModels.Find(clientId);
+            if (clientId != null)
+            {
+               
+                _appDb.ClientModels.Remove(data);
+                _appDb.SaveChanges();
+                TempData["Sucess"] = $"{data.ClientName} was removed";
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        public IActionResult UpdateClient(ClientModel cm)
+        {
+            if (ModelState.IsValid)
+            {
+                var data = _appDb.ClientModels.Find(cm.ClientId);
+                if(data != null)
+                {
+                    data.ClientName = cm.ClientName;
+                    data.ClientEmail = cm.ClientEmail;
+                    data.CLientPhone = cm.CLientPhone;
+                    _appDb.ClientModels.Update(data);
+                    _appDb.SaveChanges();
+                    TempData["Sucess"] = $"The Client {data.ClientName} was Updated Sucessfully!";
+                    return RedirectToAction("Index");
+                }
+                
+            }
+            return View();
+        }
+        public IActionResult AddClients()
+        {
+            List<ClientModel> clientModels = _appDb.ClientModels.ToList();
+            ViewBag.Clients = clientModels;
+            List<WorkerModel> workerModels = _appDb.WorkerModels.ToList();
+            ViewBag.Workers = workerModels;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddClients(ClientViewModel clientViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var client = new ClientModel()
+                {
+                    ClientName = clientViewModel.ClientName,
+                    ClientEmail = clientViewModel.ClientEmail,
+                    CLientPhone= clientViewModel.CLientPhone,
+                    HiredWorker = clientViewModel.HiredWorker
+
+                };
+                _appDb.ClientModels.Add(client);
+                _appDb.SaveChanges();
+                TempData["Sucess"] = $"{client.ClientName} was updated sucessfully";
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
    
         public IActionResult Workers()
         {

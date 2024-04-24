@@ -11,5 +11,6 @@ namespace Herne_ho.Data
         }
        
         public DbSet<WorkerModel> WorkerModels { get; set; }
+        public DbSet<ClientModel> ClientModels { get; set; }
     }
 }
